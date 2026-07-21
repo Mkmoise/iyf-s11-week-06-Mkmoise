@@ -80,3 +80,28 @@ getUserData(1, function(user) {
         });
     });
 });
+
+// Task 11.2 Exercise 2 - Creating and Using a Promise
+
+function getUserData(userId) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (userId > 0) {
+                resolve({
+                    id: userId,
+                    name: "John"
+                });
+            } else {
+                reject("Invalid user ID");
+            }
+        }, 1000);
+    });
+}
+
+getUserData(1)
+    .then(user => {
+        console.log("User:", user);
+    })
+    .catch(error => {
+        console.log("Error:", error);
+    });
