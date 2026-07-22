@@ -1,4 +1,5 @@
-// Task 11.1 Exercise 1 - Understanding Asynchronous JavaScript
+// Task 11.1 
+//Exercise 1 - Understanding Asynchronous JavaScript
 
 console.log("A");
 
@@ -21,7 +22,8 @@ console.log("E");
 // B
 // D
 
-// Task 11.1 Exercise 2 - Callback Pattern
+// Task 11.1
+//Exercise 2 - Callback Pattern
 
 function loadUser(userId, callback) {
     setTimeout(() => {
@@ -81,9 +83,10 @@ getUserData(1, function(user) {
     });
 });
 
-// Task 11.2 Exercise 2 - Creating and Using a Promise
+// Task 11.2 
+//Exercise 2 - Creating and Using a Promise
 
-function getUserData(userId) {
+function getUserDataPromise(userId) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             if (userId > 0) {
@@ -109,7 +112,7 @@ getUserData(1)
 // Task 11.3
 //Exercise 2 - Promise.all()
 
-function getUserData(userId) {
+function getUserDataChain(userId) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             if (userId > 0) {
@@ -125,9 +128,9 @@ function getUserData(userId) {
 }
 
 Promise.all([
-    getUserData(1),
-    getUserData(2),
-    getUserData(3)
+    getUserDataChain(1),
+    getUserDataChain(2),
+    getUserDataChain(3)
 ])
 .then(users => {
     console.log("All Users:", users);
@@ -157,7 +160,7 @@ Promise.race([fast, slow])
 
 // Build - Fetch 3 Users Simultaneously
 
-function getUserData(userId) {
+function getUserDataAsync(userId) {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve({
@@ -171,9 +174,9 @@ function getUserData(userId) {
 async function loadUsers() {
     try {
         const users = await Promise.all([
-            getUserData(1),
-            getUserData(2),
-            getUserData(3)
+            getUserDataAsync(1),
+            getUserDataAsync(2),
+            getUserDataAsync(3)
         ]);
 
         console.log("Fetched Users:");
