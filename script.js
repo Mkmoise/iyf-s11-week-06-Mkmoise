@@ -105,3 +105,82 @@ getUserData(1)
     .catch(error => {
         console.log("Error:", error);
     });
+
+// Task 11.3
+//Exercise 2 - Promise.all()
+
+function getUserData(userId) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (userId > 0) {
+                resolve({
+                    id: userId,
+                    name: `User ${userId}`
+                });
+            } else {
+                reject("Invalid user ID");
+            }
+        }, 1000);
+    });
+}
+
+Promise.all([
+    getUserData(1),
+    getUserData(2),
+    getUserData(3)
+])
+.then(users => {
+    console.log("All Users:", users);
+})
+.catch(error => {
+    console.log("Error:", error);
+});
+
+// Exercise 3 - Promise.race()
+
+const fast = new Promise(resolve => {
+    setTimeout(() => {
+        resolve("Fast!");
+    }, 100);
+});
+
+const slow = new Promise(resolve => {
+    setTimeout(() => {
+        resolve("Slow!");
+    }, 500);
+});
+
+Promise.race([fast, slow])
+    .then(result => {
+        console.log("Winner:", result);
+    });
+
+// Build - Fetch 3 Users Simultaneously
+
+function getUserData(userId) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({
+                id: userId,
+                name: `User ${userId}`
+            });
+        }, 1000);
+    });
+}
+
+async function loadUsers() {
+    try {
+        const users = await Promise.all([
+            getUserData(1),
+            getUserData(2),
+            getUserData(3)
+        ]);
+
+        console.log("Fetched Users:");
+        console.log(users);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+loadUsers();
