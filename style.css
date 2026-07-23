@@ -1,0 +1,20 @@
+
+Task 12.2
+
+#loading {
+    color: blue;
+    font-weight: bold;
+}
+
+#error {
+    color: red;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.user-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
