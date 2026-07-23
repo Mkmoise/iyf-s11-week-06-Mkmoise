@@ -347,7 +347,7 @@ async function getAllUsersParallel() {
 
 getAllUsersParallel();
 
-// Build - Rewrite Callback Hell
+// Build - Rewriting Callback Hell
 
 function getUserDataBuild(userId) {
     return new Promise((resolve) => {
@@ -395,3 +395,120 @@ async function loadDataBuild() {
 }
 
 loadDataBuild();
+
+// Task 12.1
+// Exercise 1 - My First Fetch
+
+function fetchSingleUser() {
+    fetch("https://jsonplaceholder.typicode.com/users/1")
+        .then(response => {
+            console.log("Response:", response);
+            console.log("Status:", response.status);
+            console.log("OK:", response.ok);
+
+            return response.json();
+        })
+        .then(user => {
+            console.log("User Data:", user);
+        })
+        .catch(error => {
+            console.log("Fetch Error:", error);
+        });
+}
+
+fetchSingleUser();
+
+// Exercise 2 - Fetch with Async/Await
+
+async function fetchUserAsync(id) {
+    try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP Error! Status: ${response.status}`);
+        }
+
+        const user = await response.json();
+        console.log("Fetched User:", user);
+
+    } catch (error) {
+        console.log("Error:", error);
+    }
+}
+
+fetchUserAsync(1);
+
+// Practice - Fetch Multiple Resources
+
+async function fetchPracticeData() {
+    try {
+        // One user
+        const userResponse = await fetch("https://jsonplaceholder.typicode.com/users/1");
+        const user = await userResponse.json();
+        console.log("Single User:", user);
+
+        // All users
+        const usersResponse = await fetch("https://jsonplaceholder.typicode.com/users");
+        const users = await usersResponse.json();
+        console.log("All Users:", users);
+
+        // Posts for User 1
+        const postsResponse = await fetch("https://jsonplaceholder.typicode.com/users/1/posts");
+        const posts = await postsResponse.json();
+        console.log("User 1 Posts:", posts);
+
+    } catch (error) {
+        console.log("Error:", error);
+    }
+}
+
+fetchPracticeData();
+
+// Task 12.2 - Displaying API Data in the DOM
+
+const loadingDisplay = document.getElementById("loading");
+const errorDisplay = document.getElementById("error");
+const usersContainer = document.getElementById("users-container");
+
+async function loadUsersDOM() {
+
+    try {
+
+        loadingDisplay.style.display = "block";
+        errorDisplay.textContent = "";
+        usersContainer.innerHTML = "";
+
+        const response = await fetch("https://jsonplaceholder.typicode.com/users");
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch users");
+        }
+
+        const users = await response.json();
+
+        users.forEach(user => {
+
+            usersContainer.innerHTML += `
+                <div class="user-card">
+                    <h3>${user.name}</h3>
+                    <p>Email: ${user.email}</p>
+                    <p>Company: ${user.company.name}</p>
+                    <p>City: ${user.address.city}</p>
+                </div>
+            `;
+
+        });
+
+    } catch (error) {
+
+        errorDisplay.textContent = error.message;
+
+    } finally {
+
+        loadingDisplay.style.display = "none";
+
+    }
+
+}
+
+loadUsersDOM();
