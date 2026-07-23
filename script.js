@@ -512,3 +512,69 @@ async function loadUsersDOM() {
 }
 
 loadUsersDOM();
+
+// Task 12.3 - POST Request
+
+const postForm = document.getElementById("post-form");
+const postResult = document.getElementById("post-result");
+
+async function createPostRequest(title, body, userId) {
+
+    try {
+
+        const response = await fetch(
+            "https://jsonplaceholder.typicode.com/posts",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    title: title,
+                    body: body,
+                    userId: userId
+                })
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to create post");
+        }
+
+        const data = await response.json();
+
+        postResult.innerHTML = `
+            <h3>Post Created Successfully</h3>
+
+            <p><strong>ID:</strong> ${data.id}</p>
+
+            <p><strong>Title:</strong> ${data.title}</p>
+
+            <p><strong>Body:</strong> ${data.body}</p>
+
+            <p><strong>User ID:</strong> ${data.userId}</p>
+        `;
+
+    } catch (error) {
+
+        postResult.innerHTML = `<p style="color:red;">${error.message}</p>`;
+
+    }
+
+}
+
+postForm.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const title = document.getElementById("title").value;
+
+    const body = document.getElementById("body").value;
+
+    const userId = document.getElementById("userId").value;
+
+    createPostRequest(title, body, userId);
+
+});
