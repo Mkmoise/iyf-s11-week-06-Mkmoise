@@ -484,7 +484,11 @@ async function loadUsersDOM() {
             throw new Error("Failed to fetch users");
         }
 
-        const users = await response.json();
+        /*const users = await response.json();*/
+        allUsers = await response.json();
+
+displayUsers(allUsers);
+loadCities(allUsers);
 
         users.forEach(user => {
 
@@ -511,9 +515,49 @@ async function loadUsersDOM() {
 
 }
 
+let allUsers = [];
 loadUsersDOM();
 
-// Task 12.3 - POST Request
+function displayUsers(users) {
+
+    usersContainer.innerHTML = "";
+
+    users.forEach(user => {
+
+        usersContainer.innerHTML += `
+            <div class="user-card">
+                <h3>${user.name}</h3>
+                <p>Email: ${user.email}</p>
+                <p>Company: ${user.company.name}</p>
+                <p>City: ${user.address.city}</p>
+            </div>
+        `;
+
+    });
+
+}
+
+function loadCities(users) {
+
+    const cityFilter = document.getElementById("city-filter");
+
+    const cities = [...new Set(users.map(user => user.address.city))];
+
+    cities.sort();
+
+    cities.forEach(city => {
+
+        cityFilter.innerHTML += `
+            <option value="${city}">
+                ${city}
+            </option>
+        );
+
+    });
+
+}
+
+/*Task 12.3 - POST Request*/
 
 const postForm = document.getElementById("post-form");
 const postResult = document.getElementById("post-result");
@@ -578,3 +622,4 @@ postForm.addEventListener("submit", function(event) {
     createPostRequest(title, body, userId);
 
 });
+
