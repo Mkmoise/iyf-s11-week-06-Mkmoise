@@ -41,3 +41,15 @@ Task 12.2
     border: 1px solid #ccc;
     padding: 10px;
 }
+
+/*Task 12.4*/
+
+.controls {
+    margin: 20px 0;
+}
+
+.controls input,
+.controls select {
+    padding: 10px;
+    margin: 5px;
+}
