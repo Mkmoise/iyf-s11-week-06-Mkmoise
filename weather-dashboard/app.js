@@ -18,3 +18,43 @@ const feelsLike = document.getElementById("feels-like");
 const humidity = document.getElementById("humidity");
 const wind = document.getElementById("wind");
 const pressure = document.getElementById("pressure");
+
+async function getWeather(city) {
+
+    const url = `${BASE_URL}?q=${city}&appid=${API_KEY}&units=metric`;
+
+    try {
+
+        showLoading();
+        hideError();
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+
+            if (response.status === 404) {
+                throw new Error("City not found");
+            }
+
+            throw new Error("Failed to fetch weather data");
+        }
+
+        const data = await response.json();
+
+        displayWeather(data);
+
+        saveToHistory(city);
+
+    } catch (err) {
+
+        showError(err.message);
+
+    } finally {
+
+        hideLoading();
+
+    }
+
+}
+
+
