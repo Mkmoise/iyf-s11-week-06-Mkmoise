@@ -97,6 +97,7 @@ function hideLoading() {
 
 }
 
+
 function showError(message) {
 
     error.textContent = message;
@@ -110,4 +111,47 @@ function hideError() {
     error.classList.add("hidden");
 
 }
+
+/*recent searches (localStorage)*/
+function saveToHistory(city) {
+
+    let history = JSON.parse(localStorage.getItem("weatherHistory")) || [];
+    history = history.filter(item => item.toLowerCase() !== city.toLowerCase());
+    history.unshift(city);
+
+    // Keep only the last five searches
+    history = history.slice(0, 5);
+    localStorage.setItem("weatherHistory", JSON.stringify(history));
+    loadHistory();
+}
+
+function loadHistory() {
+
+    const searchHistory = document.getElementById("search-history");
+    searchHistory.innerHTML = "";
+    let history = JSON.parse(localStorage.getItem("weatherHistory")) || [];
+    history.forEach(city => {
+        const li = document.createElement("li");
+        li.textContent = city;
+        li.addEventListener("click", function () {
+            getWeather(city);
+        });
+
+        searchHistory.appendChild(li);
+
+    });
+
+}
+
+form.addEventListener("submit", function (event) {
+    event.preventDefault();
+   const city = cityInput.value.trim();
+    if (city !== "") {
+        getWeather(city);
+        cityInput.value = "";
+
+    }
+
+});
+loadHistory();
 
