@@ -58,3 +58,56 @@ async function getWeather(city) {
 }
 
 
+function displayWeather(data) {
+
+    cityName.textContent = `${data.name}, ${data.sys.country}`;
+
+    weatherIcon.src =
+        `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+
+    weatherIcon.alt = data.weather[0].description;
+
+    temperature.textContent = `${data.main.temp} °C`;
+
+    description.textContent = data.weather[0].description;
+
+    feelsLike.textContent = `${data.main.feels_like} °C`;
+
+    humidity.textContent = `${data.main.humidity}%`;
+
+    wind.textContent = `${data.wind.speed} m/s`;
+
+    pressure.textContent = `${data.main.pressure} hPa`;
+
+    weatherDisplay.classList.remove("hidden");
+
+}
+
+        function showLoading() {
+
+    loading.classList.remove("hidden");
+
+    weatherDisplay.classList.add("hidden");
+
+}
+
+function hideLoading() {
+
+    loading.classList.add("hidden");
+
+}
+
+function showError(message) {
+
+    error.textContent = message;
+
+    error.classList.remove("hidden");
+
+}
+
+function hideError() {
+
+    error.classList.add("hidden");
+
+}
+
