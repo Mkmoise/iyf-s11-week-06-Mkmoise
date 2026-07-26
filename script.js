@@ -490,7 +490,7 @@ async function loadUsersDOM() {
 displayUsers(allUsers);
 loadCities(allUsers);
 
-        users.forEach(user => {
+       /* users.forEach(user => {
 
             usersContainer.innerHTML += `
                 <div class="user-card">
@@ -501,7 +501,7 @@ loadCities(allUsers);
                 </div>
             `;
 
-        });
+        });*/
 
     } catch (error) {
 
@@ -541,6 +541,8 @@ function loadCities(users) {
 
     const cityFilter = document.getElementById("city-filter");
 
+    cityFilter.innerHTML = `<option value="all">All Cities</option>`;
+
     const cities = [...new Set(users.map(user => user.address.city))];
 
     cities.sort();
@@ -551,11 +553,74 @@ function loadCities(users) {
             <option value="${city}">
                 ${city}
             </option>
-        );
+        `;
 
     });
 
 }
+/*function loadCities(users) {
+
+    const cityFilter = document.getElementById("city-filter");
+
+    const cities = [...new Set(users.map(user => user.address.city))];
+
+    cities.sort();
+
+    cities.forEach(city => {
+
+       cityFilter.innerHTML += '
+            <option value="${city}">
+                ${city}
+            </option>
+        ';
+
+    });
+
+}*/
+
+// Task 12.4 - Search & Filter
+
+const searchInput = document.getElementById("search");
+const sortSelect = document.getElementById("sort");
+const cityFilter = document.getElementById("city-filter");
+
+function filterAndDisplayUsers() {
+
+    let filteredUsers = [...allUsers];
+
+    // Search
+    const searchText = searchInput.value.toLowerCase();
+
+    filteredUsers = filteredUsers.filter(user =>
+        user.name.toLowerCase().includes(searchText) ||
+        user.email.toLowerCase().includes(searchText)
+    );
+
+    // Filter by city
+    if (cityFilter.value !== "all") {
+        filteredUsers = filteredUsers.filter(user =>
+            user.address.city === cityFilter.value
+        );
+    }
+
+    // Sort
+    filteredUsers.sort((a, b) => {
+        if (sortSelect.value === "az") {
+            return a.name.localeCompare(b.name);
+        } else {
+            return b.name.localeCompare(a.name);
+        }
+    });
+
+    displayUsers(filteredUsers);
+}
+
+// Event Listeners
+searchInput.addEventListener("input", filterAndDisplayUsers);
+
+sortSelect.addEventListener("change", filterAndDisplayUsers);
+
+cityFilter.addEventListener("change", filterAndDisplayUsers);
 
 /*Task 12.3 - POST Request*/
 
